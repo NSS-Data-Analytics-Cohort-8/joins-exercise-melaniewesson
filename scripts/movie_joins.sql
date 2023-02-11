@@ -142,13 +142,17 @@ ON a.movie_id = revenue.movie_id
 WHERE a.film_title LIKE '%_2'
 
 -- d.	Now, build off of the query you wrote for the previous part to pull in worldwide revenue for both the original movie and its sequel. Do sequels tend to make more in revenue? Hint: You will likely need to perform a self-join on the specs table in order to get the movie_id values for both the original films and their sequels. Bonus: A common data entry problem is trailing whitespace. In this dataset, it shows up in the film_title field, where the movie “Deadpool” is recorded as “Deadpool “. One way to fix this problem is to use the TRIM function. Incorporate this into your query to ensure that you are matching as many sequels as possible.
-SELECT REPLACE(LEFT(b.film_title, -2), 'Part', 'Part 1') AS original, revenue.worldwide_gross, TRIM(a.film_title) AS sequel, revenue.worldwide_gross
-FROM specs a
-INNER JOIN specs b
-ON b.movie_id = a.movie_id
+
+--ANSWER: NOT FINISHED YET
+SELECT REPLACE(LEFT(a.film_title, -2), 'Part', 'Part 1') AS original, a.movie_id, c.worldwide_gross, TRIM(a.film_title) AS sequel, b.movie_id, c.worldwide_gross
+FROM specs a, specs b
 JOIN revenue
-ON a.movie_id = revenue.movie_id
+ON b.movie_id = revenue.movie_id
+INNER JOIN revenue c
+ON c.movie_id = b.movie_id
 WHERE a.film_title LIKE '%_2'
+
+
 -- 3.	Sometimes movie series can be found by looking for titles that contain a colon. For example, Transformers: Dark of the Moon is part of the Transformers series of films.
 -- a.	Write a query which, for each film will extract the portion of the film name that occurs before the colon. For example, “Transformers: Dark of the Moon” should result in “Transformers”.  If the film title does not contain a colon, it should return the full film name. For example, “Transformers” should result in “Transformers”. Your query should return two columns, the film_title and the extracted value in a column named series. Hint: You may find the split_part function useful for this task.
 

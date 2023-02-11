@@ -83,3 +83,20 @@ LIMIT 1;
 -- Answer: Dirty Dancing
 
 -- 7. Which have a higher average rating, movies which are over two hours long or movies which are under two hours?
+
+SELECT 'more_than_2h' AS movie_length, ROUND(AVG(rating.imdb_rating),2) AS avg_rating
+FROM specs
+JOIN rating
+ON specs.movie_id = rating.movie_id
+WHERE specs.length_in_min > 120
+
+
+UNION
+
+SELECT 'less_than_2h' AS movie_length, ROUND(AVG(rating.imdb_rating),2) AS avg_rating
+FROM specs
+JOIN rating
+ON specs.movie_id = rating.movie_id
+WHERE specs.length_in_min < 120 
+
+-- Answer: Movies over 2 hours have a higher average rating
